@@ -21,13 +21,13 @@ const productsFromModel = [
 ];
 
 const productFromId = {
-  id: 2,
-  name: 'Traje de encolhimento',
+  id: 3,
+  name: 'Escudo do Capitão América',
 };
 
 const productFromIdModel = {
-  id: 2,
-  name: 'Traje de encolhimento',
+  id: 3,
+  name: 'Escudo do Capitão América',
 };
 
 const notExistProductFromDB = {
@@ -42,6 +42,7 @@ const productsFromServiceSuccess = {
   status: 'SUCCESS',
   data: productsFromModel,
 };
+
 const productsFromServiceSuccessful = {
   status: 'SUCCESS',
   data: productFromIdModel,
@@ -50,6 +51,35 @@ const productsFromServiceSuccessful = {
 const productsFromServiceNotFound = {
   status: 'NOT_FOUND',
   data: notExistProductFromModel,
+};
+
+const newProductFromDB = { id: 4, name: 'Anel do Lanterna Verde' };
+
+const newProductFromService = { id: 4, name: 'Anel do Lanterna Verde' };
+
+const newProductIdFromDB = { insertId: 4 };
+
+const createdProductFromDB = {
+  status: 'CREATED',
+  data: newProductFromDB,
+};
+
+const createdProductFromService = {
+  status: 'CREATED',
+  data: newProductFromService,
+};
+
+const schemaNameMessage = {
+  message: '"name" is required',
+};
+
+const createdProductFromServiceUnsuccess = {
+  status: 'BAD_REQUEST',
+  data: schemaNameMessage,
+};
+
+const schemaNameValidationMessage = {
+  message: '"name" length must be at least 5 characters long',
 };
 
 module.exports = {
@@ -62,4 +92,11 @@ module.exports = {
   productsFromServiceSuccess,
   productsFromServiceSuccessful,
   productsFromServiceNotFound,
+  newProductFromDB,
+  newProductIdFromDB,
+  newProductFromService,
+  createdProductFromDB,
+  createdProductFromService,
+  createdProductFromServiceUnsuccess,
+  schemaNameValidationMessage,
 };

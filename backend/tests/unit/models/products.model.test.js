@@ -8,6 +8,8 @@ const {
   productFromId,
   notExistProductFromDB,
   notExistProductFromModel,
+  newProductIdFromDB,
+  newProductFromService,
 } = require('../mocks/products.mock');
 
 describe('Realizando testes - PRODUCTS MODEL', function () {
@@ -34,6 +36,15 @@ describe('Realizando testes - PRODUCTS MODEL', function () {
 
     expect(productId).to.be.an('object');
     expect(productId).to.be.deep.equal(notExistProductFromModel);
+  });
+  it('Criar um novo produto', async function () {
+    sinon.stub(connection, 'execute').resolves([newProductIdFromDB]);
+
+    const inputNewProduct = 'Anel do Lanterna Verde';
+    const newProduct = await productModel.insertNewProduct(inputNewProduct);
+
+    expect(newProduct).to.be.an('object');
+    expect(newProduct).to.be.deep.equal(newProductFromService);
   });
 
   afterEach(function () {

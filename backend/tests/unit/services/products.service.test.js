@@ -1,11 +1,18 @@
 const { expect } = require('chai');
 const sinon = require('sinon');
 const { productsService } = require('../../../src/services');
-const { productsFromDB, 
+const {
+  productsFromDB, 
   productsFromModel, 
   productFromIdModel, 
   notExistProductFromModel, 
-  productFromId } = require('../mocks/products.mock');
+  productFromId,
+  schemaNameValidationMessage,
+  createdProductFromService,
+  createdProductFromDB,
+  // createdProductFromDB,
+  // createdProductFromService,
+} = require('../mocks/products.mock');
 const { productModel } = require('../../../src/models');
 
 describe('Realizando testes - PRODUCTS SERVICE', function () {
@@ -36,6 +43,25 @@ describe('Realizando testes - PRODUCTS SERVICE', function () {
 
     expect(servicesResp.status).to.equal('NOT_FOUND');
     expect(servicesResp.data).to.be.deep.equal(notExistProductFromModel);
+  });
+
+  it('Retornar um novo produto', async function () {
+    sinon.stub(productModel, 'insertNewProduct').resolves(createdProductFromDB);
+
+    const newProduct = 'Anel do Lanterna Verde';
+    const servicesResp = await productsService.insertNewProduct(newProduct);
+
+    expect(servicesResp.status).to.equal('CREATED');
+    expect(servicesResp.data).to.be.deep.equal(createdProductFromService);
+  });
+
+  it('Retornar mensagem de erro caso o nome do produto seja menor que 5 caracteres', async function () {
+    sinon.stub(productModel, 'insertNewProduct').resolves(undefined);
+
+    const servicesResp = await productsService.insertNewProduct('An');
+
+    expect(servicesResp.status).to.equal('INVALID_VALUE');
+    expect(servicesResp.data).to.be.deep.equal(schemaNameValidationMessage);
   });
 
   afterEach(function () {

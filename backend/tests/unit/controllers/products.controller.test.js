@@ -8,12 +8,15 @@ const { productsService } = require('../../../src/services');
 chai.use(sinonChai);
 
 const { productController } = require('../../../src/controllers');
-const { productsFromServiceSuccess, 
+const { 
+  productsFromServiceSuccess, 
   productsFromModel, 
   productsFromServiceSuccessful,
   productFromIdModel,
   productsFromServiceNotFound,
-  notExistProductFromModel, 
+  notExistProductFromModel,
+  newProductFromService,
+  createdProductFromService,
 } = require('../mocks/products.mock');
 
 describe('Realizando testes - PRODUCTS CONTROLLER', function () {
@@ -77,7 +80,7 @@ describe('Realizando testes - PRODUCTS CONTROLLER', function () {
       } });
 
     const req = {
-      params: { id: 30 },
+      params: { id: 5 },
       body: {},
     };
     const res = {
@@ -89,6 +92,24 @@ describe('Realizando testes - PRODUCTS CONTROLLER', function () {
 
     expect(res.status).to.have.been.calledWith(500);
     expect(res.json).to.have.been.calledWith(notExistProductFromModel);
+  });
+
+  it('Criar um novo produto', async function () {
+    sinon.stub(productsService, 'insertNewProduct').resolves(createdProductFromService);
+
+    const req = {
+      params: {},
+      body: { name: 'Anel do Lanterna Verde' },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await productController.insertNewProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith(newProductFromService);
   });
 
   afterEach(function () {
