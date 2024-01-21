@@ -16,9 +16,9 @@ const findById = async (productId) => {
 };
 
 const insertNewProduct = async (name) => {
-  const [{ insertId: id }] = await connection
+  const [{ insertId }] = await connection
     .execute('INSERT INTO products (name) VALUES (?)', [name]);
-  return { id, name };
+  return { id: insertId, name };
 };
 
 module.exports = {

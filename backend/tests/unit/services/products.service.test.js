@@ -58,7 +58,7 @@ describe('Realizando testes - PRODUCTS SERVICE', function () {
   it('Retornar mensagem de erro caso o nome do produto seja menor que 5 caracteres', async function () {
     sinon.stub(productModel, 'insertNewProduct').resolves(undefined);
 
-    const servicesResp = await productsService.insertNewProduct('An');
+    const servicesResp = await productsService.insertNewProduct('no');
 
     expect(servicesResp.status).to.equal('INVALID_VALUE');
     expect(servicesResp.data).to.be.deep.equal(schemaNameValidationMessage);

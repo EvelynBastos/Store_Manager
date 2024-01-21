@@ -16,8 +16,8 @@ const findById = async (productId) => {
 };
 
 const insertNewProduct = async (name) => {
-  const validation = schema.validateNewProduct({ name });
-  if (validation) return { status: validation.status, data: { message: validation.message } };
+  const error = schema.validateNewProduct({ name });
+  if (error) return { status: error.status, data: { message: error.message } };
   const newProduct = await productModel.insertNewProduct(name);
   return { status: 'CREATED', data: newProduct };
 };

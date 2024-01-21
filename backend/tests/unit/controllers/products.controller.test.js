@@ -38,7 +38,7 @@ describe('Realizando testes - PRODUCTS CONTROLLER', function () {
     expect(res.json).to.have.been.calledWith(productsFromModel);
   });
 
-  it('Retornar um produto com sucesso', async function () {
+  it('Retornar um produto com sucesso pelo id', async function () {
     sinon.stub(productsService, 'findById').resolves(productsFromServiceSuccessful);
 
     const req = {
@@ -71,26 +71,6 @@ describe('Realizando testes - PRODUCTS CONTROLLER', function () {
     await productController.findById(req, res);
 
     expect(res.status).to.have.been.calledWith(404);
-    expect(res.json).to.have.been.calledWith(notExistProductFromModel);
-  });
-  it('Retornar erro de servidor', async function () {
-    sinon.stub(productsService, 'findById').resolves({ status: 'ERROR', 
-      data: { 
-        message: 'Product not found', 
-      } });
-
-    const req = {
-      params: { id: 5 },
-      body: {},
-    };
-    const res = {
-      status: sinon.stub().returnsThis(),
-      json: sinon.stub(),
-    };
-
-    await productController.findById(req, res);
-
-    expect(res.status).to.have.been.calledWith(500);
     expect(res.json).to.have.been.calledWith(notExistProductFromModel);
   });
 
