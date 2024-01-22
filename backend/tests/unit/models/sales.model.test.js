@@ -34,6 +34,24 @@ describe('Realizando teste - SALES MODEL', function () {
     expect(salesMessage).to.be.deep.equal([]);
   });
 
+  it('Verifica se a função createSale insere uma venda', async function () {
+    sinon.stub(connection, 'execute')
+      .onFirstCall()
+      .resolves([{ insertId: 4 }])
+      .onSecondCall()
+      .resolves([]);
+
+    const inputSale = [
+      { productId: 1, quantity: 1 },
+      { productId: 2, quantity: 6 },
+    ];
+
+    const insertSale = await salesModel.createSale(inputSale);
+
+    expect(insertSale).to.be.an('object');
+    expect(insertSale).to.be.deep.equal({ id: 4, itemsSold: inputSale });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

@@ -81,6 +81,19 @@ const salesUnsuccessful = {
   data: salesMessageModel,
 };
 
+const insertSaleFromModel = {
+  id: 6,
+  itemsSold: [
+    { productId: 1, quantity: 1 },
+    { productId: 2, quantity: 6 },
+  ],
+};
+
+const insertSaleFromService = {
+  status: 'CREATED',
+  data: insertSaleFromModel,
+};
+
 module.exports = {
   salesFromDB,
   salesFromModel,
@@ -91,4 +104,6 @@ module.exports = {
   salesSuccess,
   salesIdSuccess,
   salesUnsuccessful,
+  insertSaleFromModel,
+  insertSaleFromService,
 };

@@ -39,6 +39,27 @@ describe('Realizando teste - SALES SERVICE', function () {
     expect(saleServiceResponse.data).to.deep.equal(salesMessageModel);
   });
 
+  it('Verifica se é possível inserir uma venda', async function () {
+    const expected = {
+      id: 6,
+      itemsSold: [
+        { productId: 1, quantity: 1 },
+        { productId: 2, quantity: 6 },
+      ],
+    };
+    sinon.stub(salesModel, 'createSale').resolves(expected);
+    sinon.stub(salesModel, 'findById').resolves([{}]);
+
+    const inputSale = [
+      { productId: 1, quantity: 1 },
+      { productId: 2, quantity: 6 },
+    ];
+    const saleServiceResponse = await salesService.createSale(inputSale);
+
+    expect(saleServiceResponse.status).to.equal('CREATED');
+    expect(saleServiceResponse.data).to.deep.equal(expected);
+  });
+
   afterEach(function () {
     sinon.restore();
   });

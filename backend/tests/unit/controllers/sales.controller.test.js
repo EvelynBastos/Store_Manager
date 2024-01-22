@@ -11,6 +11,8 @@ const {
   salesIdSuccess,
   salesMessageModel,
   salesUnsuccessful,
+  insertSaleFromService,
+  insertSaleFromModel,
 } = require('../mocks/sales.mock');
 
 chai.use(sinonChai);
@@ -68,6 +70,27 @@ describe('Realizando teste - SALES CONTROLLER', function () {
 
     expect(res.status).to.have.been.calledWith(404);
     expect(res.json).to.have.been.calledWith(salesMessageModel);
+  });
+
+  it('Retorna nova venda', async function () {
+    sinon.stub(salesService, 'createSale').resolves(insertSaleFromService);
+
+    const req = {
+      params: {},
+      body: [
+        { productId: 1, quantity: 1 },
+        { productId: 2, quantity: 6 },
+      ],
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+
+    await salesController.createSale(req, res);
+
+    expect(res.status).to.have.been.calledWith(201);
+    expect(res.json).to.have.been.calledWith(insertSaleFromModel);
   });
 
   afterEach(function () {
