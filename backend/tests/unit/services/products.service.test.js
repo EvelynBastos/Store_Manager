@@ -64,6 +64,41 @@ describe('Realizando testes - PRODUCTS SERVICE', function () {
     expect(servicesResp.data).to.be.deep.equal(schemaNameValidationMessage);
   });
 
+  it('Atualizar um produto', async function () {
+    sinon.stub(productModel, 'updateProduct').resolves({ id: 3, name: 'Máscara do Homem de Ferro' });
+    sinon.stub(productModel, 'findById').resolves({ id: 3, name: 'Brinquedo para criança' });
+
+    const name = 'Máscara do Homem de Ferro';
+    const id = 3;
+    const servicesResp = await productsService.updateProduct(id, name);
+
+    expect(servicesResp.status).to.equal('SUCCESS');
+    expect(servicesResp.data).to.be.deep.equal({ id: 3, name: 'Máscara do Homem de Ferro' });
+  });
+
+  it('Não atualizar um produto não encontrado', async function () {
+    sinon.stub(productModel, 'updateProduct').resolves(undefined);
+    sinon.stub(productModel, 'findById').resolves(undefined);
+
+    const name = 'Máscara do Homem de Ferro';
+    const id = 100;
+    const servicesResp = await productsService.updateProduct(id, name);
+
+    expect(servicesResp.status).to.equal('NOT_FOUND');
+    expect(servicesResp.data).to.be.deep.equal({ message: 'Product not found' });
+  });
+
+  it('Deletar um produto', async function () {
+    sinon.stub(productModel, 'deleteProduct').resolves({ id: 1, name: 'Martelo de Thor' });
+    sinon.stub(productModel, 'findById').resolves({ id: 1, name: 'Martelo de Thor' });
+
+    const inputId = 1;
+    const serviceResponse = await productsService.deleteProduct(inputId);
+
+    expect(serviceResponse.status).to.equal('NO_CONTENT');
+    expect(serviceResponse.data).to.be.deep.equal({ id: 1, name: 'Martelo de Thor' });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

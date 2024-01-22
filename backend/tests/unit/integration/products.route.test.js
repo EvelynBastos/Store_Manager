@@ -34,6 +34,26 @@ describe('Realizando testes - PRODUCTS ROUTE', function () {
     expect(response.body).to.be.deep.equal(productFromIdModel);
   });
 
+  it('Não criar produto sem a proproedade "name"', async function () {
+    sinon.stub(connection, 'execute').resolves(undefined);
+
+    const response = await chai.request(app).post('/products');
+
+    expect(response.status).to.be.equal(400);
+    expect(response.body).to.be.deep.equal({ message: '"name" is required' });
+  });
+
+  it('Não atualizar produto sem a proproedade "name"', async function () {
+    sinon.stub(connection, 'execute').resolves(undefined);
+
+    const response = await chai.request(app).put('/products/3').send({
+      age: 'Escudo do Capitão América',
+    });
+
+    expect(response.status).to.be.equal(400);
+    expect(response.body).to.be.deep.equal({ message: '"name" is required' });
+  });
+
   afterEach(function () {
     sinon.restore();
   });

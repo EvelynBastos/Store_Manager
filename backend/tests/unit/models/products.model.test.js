@@ -46,6 +46,28 @@ describe('Realizando testes - PRODUCTS MODEL', function () {
     expect(newProduct).to.be.deep.equal(newProductFromService);
   });
 
+  it('Atualizar um produto', async function () {
+    sinon.stub(connection, 'execute').resolves([{ affectedRows: 1 }]);
+
+    const name = 'Máscara do Homem de Ferro';
+    const id = 3;
+    const newProduct = await productModel.updateProduct(id, name);
+
+    expect(newProduct).to.be.an('object');
+    expect(newProduct).to.be.deep.equal({ id, name });
+  });
+
+  it('Remove um produto', async function () {
+    const mocked = sinon.stub(connection, 'execute').resolves(undefined);
+
+    const inputId = 3;
+    await productModel.deleteProduct(inputId);
+
+    sinon.assert.calledOnce(mocked);
+
+    expect(mocked.called).to.be.equal(true);
+  });
+
   afterEach(function () {
     connection.execute.restore();
   });

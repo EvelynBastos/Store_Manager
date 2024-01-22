@@ -92,6 +92,62 @@ describe('Realizando testes - PRODUCTS CONTROLLER', function () {
     expect(res.json).to.have.been.calledWith(newProductFromService);
   });
 
+  it('Não é possível atualizar a propriedade do produto "name"', async function () {
+    sinon.stub(productsService, 'updateProduct').resolves(undefined);
+    sinon.stub(productsService, 'findById').resolves(undefined);
+
+    const req = {
+      params: { id: 2 },
+      body: { age: 'Escudo do Capitão América' },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    await productController.insertNewProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(400);
+    expect(res.json).to.have.been.calledWith({ message: '"name" is required' });
+  });
+
+  it('Não é possível atualizar o nome com menos de 5 caracteres', async function () {
+    sinon.stub(productsService, 'updateProduct').resolves(undefined);
+    sinon.stub(productsService, 'findById').resolves(undefined);
+
+    const req = {
+      params: { id: 2 },
+      body: { name: 'Arma' },
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    await productController.insertNewProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(422);
+    expect(res.json).to.have.been.calledWith({
+      message: '"name" length must be at least 5 characters long', 
+    });
+  });
+
+  it('Deleta um produto', async function () {
+    sinon.stub(productsService, 'deleteProduct').resolves({ status: 'NO_CONTENT', data: null });
+    sinon.stub(productsService, 'findById').resolves({ id: 2, name: 'Escudo do Capitão América' });
+
+    const req = {
+      params: { id: 2 },
+      body: {},
+    };
+    const res = {
+      status: sinon.stub().returnsThis(),
+      json: sinon.stub(),
+    };
+    await productController.deleteProduct(req, res);
+
+    expect(res.status).to.have.been.calledWith(204);
+    expect(res.json).to.have.been.calledWith(null);
+  });
+
   afterEach(function () {
     sinon.restore();
   });
