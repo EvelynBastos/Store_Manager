@@ -56,11 +56,7 @@ npm run dev:local
 
 </details>
 
-<details>
-<summary>🎲 Tabelas do banco de dados</summary>
-
 
 ![StoreManager](https://github.com/user-attachments/assets/3c8d9e87-57ce-4e34-83ff-54fa5ff4b030)
 
 
-</details>
