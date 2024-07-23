@@ -56,6 +56,22 @@ npm run dev:local
 
 </details>
 
+<details>
+
+<summary><strong> 🛠️ Instalando o projeto </strong></summary><br />
+
+  1. Clone o repositório
+
+- Use o comando: `git clone git@github.com:EvelynBastos/Store_Manager.git`
+- Entre na pasta do repositório que você acabou de clonar:
+    - `cd <diretório-do-projeto>`
+
+2. Instale as dependências
+
+    - npm install
+
+</details>
+
 
 ![StoreManager](https://github.com/user-attachments/assets/3c8d9e87-57ce-4e34-83ff-54fa5ff4b030)
 
